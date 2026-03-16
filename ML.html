@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario ML: Escudo de Liquidez Bancaria</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- 
+    PALETTE: Electric Fintech
+    Primary: #0F172A (Slate 900)
+    Secondary: #06B6D4 (Cyan 500)
+    Accent: #8B5CF6 (Violet 500)
+    Text: #334155 (Slate 700)
+    Background: #F8FAFC (Slate 50)
+    -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F8FAFC;
+            color: #334155;
+        }
+        
+        /* CHART CONTAINER STYLING RULES - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Limits width on large screens */
+            margin-left: auto;
+            margin-right: auto; /* Centers horizontally */
+            height: 350px; /* Base height */
+            max-height: 400px; /* Prevents vertical overflow */
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Custom Utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #06B6D4 0%, #8B5CF6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #E2E8F0;
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+    </style>
+    <!-- NO SVG OR MERMAID USED IN THIS DOCUMENT -->
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- HEADER / HERO -->
+    <header class="bg-slate-900 text-white pt-20 pb-24 px-6 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="max-w-6xl mx-auto relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-cyan-500/20 text-cyan-300 text-sm font-bold tracking-wider mb-4 border border-cyan-500/50">BANCO DE MÉXICO</span>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
+                Formulario <span class="text-cyan-400">ML</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto font-light">
+                El mecanismo estratégico para supervisar, medir y fortalecer la <strong class="text-white">resiliencia de liquidez</strong> del sistema bancario mexicano.
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT GRID -->
+    <main class="max-w-7xl mx-auto px-6 -mt-16 relative z-20 space-y-24 pb-20">
+
+        <!-- SECTION 1: OBJETIVO (Goal: Inform) -->
+        <!-- Justification: Simple cards are best to convey distinct qualitative goals clearly. -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-cyan-500 hover:transform hover:-translate-y-1 transition duration-300">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">Misión: Supervisión</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    El objetivo primario es permitir al regulador <strong>dar seguimiento diario</strong> al comportamiento de la liquidez. Funciona como un radar que detecta vulnerabilidades antes de que se conviertan en crisis sistémicas.
+                </p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-8 border-t-8 border-violet-500 hover:transform hover:-translate-y-1 transition duration-300">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">Misión: Fortalecimiento</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    No es solo observación; es acción. El formulario impulsa a las instituciones a adoptar una <strong>gestión eficiente del riesgo</strong>, obligándolas a mantener reservas adecuadas para escenarios adversos.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: REPORTING ENTITIES (Goal: Organize) -->
+        <!-- Justification: A CSS-based flow diagram visualizes the hierarchy effectively without SVG. -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-slate-900">¿Quién Reporta?</h2>
+                <p class="text-lg text-slate-500 mt-3">El alcance cubre tanto la entidad individual como el grupo financiero.</p>
+            </div>
+
+            <div class="flex flex-col items-center justify-center space-y-8">
+                <!-- Top Node -->
+                <div class="bg-slate-800 text-white px-8 py-4 rounded-xl shadow-lg text-xl font-bold w-64 text-center border-b-4 border-cyan-500">
+                    Institución de Banca Múltiple
+                </div>
+                
+                <!-- Connector Vertical -->
+                <div class="h-8 w-1 bg-slate-300"></div>
+                
+                <!-- Branching -->
+                <div class="flex flex-col md:flex-row gap-8 md:gap-16 w-full justify-center">
+                    
+                    <!-- Left Branch -->
+                    <div class="flex flex-col items-center w-full md:w-1/3">
+                        <div class="h-1 w-full bg-slate-300 md:hidden"></div> <!-- Mobile horiz connector -->
+                        <div class="h-8 w-1 bg-slate-300 -mt-1 md:mt-0"></div> <!-- Vertical connector -->
+                        <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-cyan-500 w-full text-center">
+                            <h3 class="text-xl font-bold text-cyan-600 mb-2">Reporte Individual</h3>
+                            <p class="text-sm text-slate-500">Operaciones propias del banco.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Branch -->
+                    <div class="flex flex-col items-center w-full md:w-1/3">
+                        <div class="h-1 w-full bg-slate-300 md:hidden"></div>
+                        <div class="h-8 w-1 bg-slate-300 -mt-1 md:mt-0"></div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-violet-500 w-full text-center">
+                            <h3 class="text-xl font-bold text-violet-600 mb-2">Reporte Consolidado</h3>
+                            <p class="text-sm text-slate-500">Incluye subsidiarias y entidades financieras (ej. Casas de Bolsa).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KEY COEFFICIENTS (Goal: Compare) -->
+        <!-- Justification: Bar charts allow direct visual comparison between Assets/Liabilities to explain the ratios. -->
+        <section class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 overflow-hidden relative">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-50 rounded-full -mr-20 -mt-20 z-0"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl font-bold text-slate-900 mb-6 text-center">Los Pilares de Basilea III</h2>
+                <p class="text-xl text-slate-500 text-center max-w-3xl mx-auto mb-16">
+                    El formulario alimenta el cálculo de dos coeficientes vitales que determinan la salud financiera del banco.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    
+                    <!-- CHART 1: CCL -->
+                    <div class="flex flex-col">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-cyan-600 mb-2">1. Coeficiente de Cobertura de Liquidez (CCL)</h3>
+                            <p class="text-slate-600 mb-4 text-sm">
+                                <strong>El Reto:</strong> ¿Puede el banco sobrevivir 30 días de estrés financiero severo?<br>
+                                <strong>La Fórmula:</strong> Activos Líquidos > Salidas Netas.
+                            </p>
+                        </div>
+                        <div class="chart-container bg-slate-50 rounded-xl p-4 border border-slate-100 shadow-inner">
+                            <canvas id="chartCCL"></canvas>
+                        </div>
+                        <p class="mt-4 text-xs text-slate-400 text-center italic">Representación conceptual de un estado saludable (Ratio > 100%)</p>
+                    </div>
+
+                    <!-- CHART 2: CFEN -->
+                    <div class="flex flex-col">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-violet-600 mb-2">2. Coeficiente de Financiamiento Estable (CFEN)</h3>
+                            <p class="text-slate-600 mb-4 text-sm">
+                                <strong>El Reto:</strong> ¿Tiene el banco fondeo estable para sus activos de largo plazo?<br>
+                                <strong>La Fórmula:</strong> Disponible (FED) > Requerido (FER).
+                            </p>
+                        </div>
+                        <div class="chart-container bg-slate-50 rounded-xl p-4 border border-slate-100 shadow-inner">
+                            <canvas id="chartCFEN"></canvas>
+                        </div>
+                        <p class="mt-4 text-xs text-slate-400 text-center italic">Representación conceptual de estabilidad estructural (Ratio > 100%)</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: DATA GRANULARITY (Goal: Relationships/Composition) -->
+        <!-- Justification: A Radar chart effectively shows the multi-dimensional nature of the data coverage required. -->
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-4">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-6">Radiografía de Datos</h2>
+                    <p class="text-lg text-slate-600 mb-6">
+                        El formulario no pide totales simples. Exige una <strong>granularidad extrema</strong> para detectar riesgos ocultos.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="bg-cyan-100 text-cyan-700 font-bold px-2 py-1 rounded text-xs mr-3 mt-1">DIVISAS</span>
+                            <span class="text-slate-600 text-sm">Desglose estricto entre MXN, USD y otras monedas.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-violet-100 text-violet-700 font-bold px-2 py-1 rounded text-xs mr-3 mt-1">PLAZOS</span>
+                            <span class="text-slate-600 text-sm">Vencimientos escalonados (1-7 días, 30 días, >1 año).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-slate-200 text-slate-700 font-bold px-2 py-1 rounded text-xs mr-3 mt-1">ACTIVOS</span>
+                            <span class="text-slate-600 text-sm">Calidad crediticia, ponderación de riesgo y nivel de liquidez.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="md:col-span-8 bg-white rounded-2xl shadow-lg p-6">
+                    <div class="chart-container">
+                        <canvas id="chartComponents"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-slate-500 mt-4">Nivel relativo de detalle y complejidad por sección del reporte</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: SUBMISSION PROCESS (Goal: Organize/Process) -->
+        <!-- Justification: Timeline layout clearly communicates the sequential steps of compliance. -->
+        <section class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-slate-900 mb-12 text-center">El Ciclo de Cumplimiento</h2>
+            
+            <div class="relative pl-8 md:pl-0">
+                <!-- Vertical Line -->
+                <div class="timeline-line hidden md:block"></div>
+                <div class="absolute left-8 top-0 bottom-0 w-1 bg-slate-200 md:hidden"></div>
+
+                <!-- Step 1 -->
+                <div class="relative z-10 mb-16 md:flex justify-between items-center group">
+                    <div class="md:w-5/12 text-left md:text-right order-1 md:pr-8 pl-8 md:pl-0">
+                        <h3 class="text-2xl font-bold text-slate-800">Recopilación & Frecuencia</h3>
+                        <p class="text-slate-600 mt-2">La información del CCL se monitorea <strong>diariamente</strong>, mientras que otros reportes son mensuales.</p>
+                    </div>
+                    <div class="hidden md:flex order-2 w-10 h-10 bg-cyan-500 rounded-full items-center justify-center text-white font-bold shadow-lg border-4 border-white">1</div>
+                    <div class="md:w-5/12 order-3 pl-8">
+                        <div class="bg-cyan-50 p-4 rounded-lg border-l-4 border-cyan-500">
+                            <span class="font-bold text-cyan-700 text-xs uppercase tracking-wide">Clave</span>
+                            <p class="text-sm font-medium text-slate-700">Consistencia diaria</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative z-10 mb-16 md:flex justify-between items-center group">
+                    <div class="md:w-5/12 text-left md:text-right order-1 md:pr-8 pl-8 md:pl-0">
+                        <div class="bg-violet-50 p-4 rounded-lg border-r-4 md:border-r-4 md:border-l-0 border-l-4 border-violet-500">
+                            <span class="font-bold text-violet-700 text-xs uppercase tracking-wide">Herramienta</span>
+                            <p class="text-sm font-medium text-slate-700">Sistema STIM de Banxico</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex order-2 w-10 h-10 bg-violet-500 rounded-full items-center justify-center text-white font-bold shadow-lg border-4 border-white">2</div>
+                    <div class="md:w-5/12 order-3 pl-8">
+                        <h3 class="text-2xl font-bold text-slate-800">Transmisión (STIM)</h3>
+                        <p class="text-slate-600 mt-2">Los datos se envían de forma segura a través del <strong>Sistema para la Transmisión de Información</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative z-10 md:flex justify-between items-center group">
+                    <div class="md:w-5/12 text-left md:text-right order-1 md:pr-8 pl-8 md:pl-0">
+                        <h3 class="text-2xl font-bold text-slate-800">Confrontas & Validación</h3>
+                        <p class="text-slate-600 mt-2">El sistema ejecuta validaciones automáticas. Si los datos no cuadran matemáticamente, el reporte es <strong>rechazado</strong>.</p>
+                    </div>
+                    <div class="hidden md:flex order-2 w-10 h-10 bg-slate-800 rounded-full items-center justify-center text-white font-bold shadow-lg border-4 border-white">3</div>
+                    <div class="md:w-5/12 order-3 pl-8">
+                        <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-slate-600">
+                            <span class="font-bold text-slate-700 text-xs uppercase tracking-wide">Rigor</span>
+                            <p class="text-sm font-medium text-slate-700">Tolerancia Cero a errores</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="mt-24 border-t border-slate-200 py-12 text-center">
+            <p class="text-slate-600 text-sm">Fuente: Banco de México • Creado por Arturo Mendoza Lee</p>
+            <p class="text-slate-500 text-xs mt-2"> Uso exclusivo informativo • Derechos Reservados</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- UTILITY: Label Wrapping Logic (Mandatory) ---
+        function wrapLabel(str, maxChars) {
+            if (str.length <= maxChars) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxChars) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- GLOBAL CHART DEFAULTS ---
+        Chart.defaults.font.family = "'Roboto', sans-serif";
+        Chart.defaults.color = '#64748B';
+        
+        // --- CHART 1: CCL (Liquidity Coverage Ratio) ---
+        // Visualizing the concept of Assets needing to cover Outflows
+        const ctxCCL = document.getElementById('chartCCL').getContext('2d');
+        new Chart(ctxCCL, {
+            type: 'bar',
+            data: {
+                // Wrapping labels "Activos Líquidos de Alta Calidad" and "Salidas Netas de Efectivo (30 días)"
+                labels: [
+                    wrapLabel('Activos Líquidos Alta Calidad (ALAC)', 15), 
+                    wrapLabel('Salidas Netas Efectivo (30 días)', 15)
+                ],
+                datasets: [{
+                    label: 'Monto (Ilustrativo)',
+                    data: [125, 100], // Shows a healthy ratio > 100%
+                    backgroundColor: [
+                        '#06B6D4', // Cyan for Assets (Positive)
+                        '#94A3B8'  // Gray for Outflows (Negative/Benchmark)
+                    ],
+                    borderRadius: 8,
+                    barThickness: 50
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            // MANDATORY TOOLTIP CONFIG
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                } else {
+                                    return label;
+                                }
+                            },
+                            label: function(context) {
+                                return context.parsed.y + '% (Índice Base 100)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#F1F5F9' },
+                        title: { display: true, text: 'Nivel Relativo' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // --- CHART 2: CFEN (Net Stable Funding Ratio) ---
+        // Visualizing Available vs Required Funding
+        const ctxCFEN = document.getElementById('chartCFEN').getContext('2d');
+        new Chart(ctxCFEN, {
+            type: 'bar',
+            data: {
+                labels: [
+                    wrapLabel('Financiamiento Estable Disponible', 15),
+                    wrapLabel('Financiamiento Estable Requerido', 15)
+                ],
+                datasets: [{
+                    label: 'Monto (Ilustrativo)',
+                    data: [115, 100], // Healthy ratio > 100%
+                    backgroundColor: [
+                        '#8B5CF6', // Violet for Available
+                        '#94A3B8'  // Gray for Required
+                    ],
+                    borderRadius: 8,
+                    barThickness: 50
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            // MANDATORY TOOLTIP CONFIG
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                } else {
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#F1F5F9' },
+                        title: { display: true, text: 'Nivel Relativo' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // --- CHART 3: COMPONENTS RADAR ---
+        // Visualizing the complexity and granularity of different data sections
+        const ctxComp = document.getElementById('chartComponents').getContext('2d');
+        new Chart(ctxComp, {
+            type: 'radar',
+            data: {
+                labels: [
+                    wrapLabel('Desglose de Monedas', 12),
+                    wrapLabel('Detalle de Plazos', 12),
+                    wrapLabel('Tipos de Activos', 12),
+                    wrapLabel('Fuentes de Pasivos', 12),
+                    wrapLabel('Derivados y Garantías', 12),
+                    wrapLabel('Validación (Confrontas)', 12)
+                ],
+                datasets: [{
+                    label: 'Nivel de Granularidad Requerido',
+                    data: [90, 85, 95, 80, 70, 100],
+                    backgroundColor: 'rgba(6, 182, 212, 0.2)', // Cyan transparent
+                    borderColor: '#06B6D4',
+                    pointBackgroundColor: '#0F172A',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#06B6D4'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            // MANDATORY TOOLTIP CONFIG
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                } else {
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#E2E8F0' },
+                        grid: { color: '#E2E8F0' },
+                        pointLabels: {
+                            font: { size: 11, weight: 'bold' },
+                            color: '#475569'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
